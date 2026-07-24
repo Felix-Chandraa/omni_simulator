@@ -5,7 +5,7 @@ import { setLoading, showToast } from "../widgets/hud.js";
 import { createAircraftEntities, updateAircraftOnMap } from "./aircraft.js";
 import { updateHomeMarker, ensureHomeReady } from "./home.js";
 import { measureRunwayElevation, buildRunwaySlab } from "./runway.js";
-import { renderSlavedCamera } from "./views.js";
+import { renderSlavedCamera, initGroundObserverMarker } from "./views.js";
 
 export async function initMap() {
   try {
@@ -141,6 +141,7 @@ export async function initMap() {
     }, 250);
 
     updateHomeMarker();
+    initGroundObserverMarker();
     updateAircraftOnMap();
   } catch (error) {
     console.error("Map initialization failed:", error);

@@ -100,9 +100,16 @@ export function setTrainingView(name, silent = false) {
     if (name === VIEWS.GROUND) {
       ensureGroundControls();
       groundObserver = computeGroundObserver();
+      updateGroundObserverMarker(groundObserver, true);
     } else {
       restoreGroundFov();
     }
+  }
+
+  if (name !== VIEWS.GROUND && state.entities.groundObserver) {
+    // P-GV-MARK: tetap terlihat di view lain (FREE/atas) — hanya
+    // disembunyikan bila memang tidak ada observer valid.
+    state.entities.groundObserver.show = isFinitePosition(groundObserver);
   }
 
   if (name === VIEWS.FOLLOW || name === VIEWS.FREE) {
@@ -119,6 +126,56 @@ export function setTrainingView(name, silent = false) {
 /** Posisi pengamat GROUND.
  * Prioritas: (1) koordinat GCS TETAP dari CONFIG (mode "Fixed GCS Position"),
  * (2) fallback: dekat home, (3) fallback terakhir: proyeksi darat pesawat. */
+/** P-GV-MARK (Jul 2026): titik + label "GROUND VIEW" di posisi pengamat,
+ * agar dari FREE view atau kamera dari atas terlihat jelas orang berdiri di
+ * mana. Mengikuti gaya penanda HOME (core/home.js). Tetap terlihat di semua
+ * view (bukan hanya saat GROUND aktif) — hanya disembunyikan bila belum ada
+ * posisi observer yang valid. */
+/** P-GV-MARK: tampilkan marker sejak startup, tanpa menunggu user pertama
+ * kali menekan tombol 4 (GROUND). Dipanggil dari initMap() di map.js. */
+export function initGroundObserverMarker() {
+  updateGroundObserverMarker(computeGroundObserver(), true);
+}
+
+function updateGroundObserverMarker(position, forceShow = false) {
+  if (!state.viewer || !isFinitePosition(position)) {
+    if (state.entities.groundObserver) {
+      state.entities.groundObserver.show = false;
+    }
+    return;
+  }
+
+  if (!state.entities.groundObserver) {
+    state.entities.groundObserver = state.viewer.entities.add({
+      position,
+      point: {
+        pixelSize: 11,
+        color: Cesium.Color.YELLOW,
+        outlineColor: Cesium.Color.BLACK,
+        outlineWidth: 2,
+        heightReference: Cesium.HeightReference.NONE,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY
+      },
+      label: {
+        text: "GROUND VIEW",
+        font: "13px sans-serif",
+        fillColor: Cesium.Color.YELLOW,
+        outlineColor: Cesium.Color.BLACK,
+        outlineWidth: 2,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        pixelOffset: new Cesium.Cartesian2(0, -24),
+        heightReference: Cesium.HeightReference.NONE,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY
+      }
+    });
+  } else {
+    state.entities.groundObserver.position = position;
+    if (forceShow) {
+      state.entities.groundObserver.show = true;
+    }
+  }
+}
+
 function computeGroundObserver() {
   const g = CONFIG.views.ground;
   let lat;
@@ -376,11 +433,13 @@ function moveGroundObserver(forwardM, rightM) {
   const lon = cur.lon + dEast / (111320 * Math.cos(Cesium.Math.toRadians(cur.lat)));
   groundOverride = { lat, lon };
   groundObserver = computeGroundObserver();
+  updateGroundObserverMarker(groundObserver);
 }
 
 function resetGroundObserver() {
   groundOverride = null;
   groundObserver = computeGroundObserver();
+  updateGroundObserverMarker(groundObserver);
   const cam = state.viewer && state.viewer.camera;
   if (groundFovDefault !== null && cam && cam.frustum.fov !== undefined) {
     cam.frustum.fov = groundFovDefault;

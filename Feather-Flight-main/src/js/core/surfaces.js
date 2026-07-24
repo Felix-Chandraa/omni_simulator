@@ -32,10 +32,10 @@ export const SURF = {
     prop: "z"
   },
   sign: {
-    aileron_L: 1,
-    aileron_R: 1,
-    ruddervator_L: 1,
-    ruddervator_R: 1,
+    aileron_L: -1,
+    aileron_R: -1,
+    ruddervator_L: -1,
+    ruddervator_R: -1,
     prop: 1
   },
   mixE: 0.5,          // porsi elevator di panel V
