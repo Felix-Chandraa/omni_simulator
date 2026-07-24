@@ -63,7 +63,7 @@ omni_simulator/
 ## 2. Instalasi di laptop baru
 
 ### 2.1 Prasyarat
-Ubuntu 22.04 / 24.04 dan koneksi internet (clone ardupilot beberapa GB).
+Linux Mint 22.2 dan koneksi internet (clone ardupilot beberapa GB).
 
 ### 2.2 Perintah
 ```bash
