@@ -1,0 +1,93 @@
+#app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at top left, rgba(65, 209, 255, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(124, 92, 255, 0.14), transparent 24%),
+    linear-gradient(180deg, #09111f 0%, #060b14 100%);
+}
+
+#map-container {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #0a0f18;
+}
+
+#map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hud-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.85));
+}
+
+.topbar {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.topbar > * {
+  pointer-events: auto;
+}
+
+.left-panel {
+  position: absolute;
+  top: 88px;
+  left: 16px;
+  bottom: 16px;
+  overflow-y: auto;
+  width: 280px;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.right-panel {
+  position: absolute;
+  top: 88px;
+  right: 16px;
+  bottom: 16px;
+  overflow-y: auto;
+  width: 180px;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.bottom-bar {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  pointer-events: none;
+}

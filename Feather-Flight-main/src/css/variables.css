@@ -1,0 +1,17 @@
+:root {
+  --bg: #0b1220;
+  --panel: rgba(15, 23, 42, 0.78);
+  --panel-2: rgba(17, 25, 40, 0.92);
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #e5eefc;
+  --muted: #93a4c3;
+  --accent: #41d1ff;
+  --accent-2: #7c5cff;
+  --good: #33d17a;
+  --warn: #ffb020;
+  --bad: #ff5d5d;
+  --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --blur: blur(12px);
+}

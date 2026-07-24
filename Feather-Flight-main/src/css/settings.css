@@ -1,0 +1,311 @@
+/* ===== Drawer settings (checklist widget) ===== */
+
+.settings-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+  z-index: 60;
+}
+
+.settings-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.settings-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  padding: 16px;
+  background: var(--panel);
+  border-left: 1px solid var(--border);
+  backdrop-filter: var(--blur);
+  box-shadow: var(--shadow);
+  transform: translateX(105%);
+  transition: transform 0.2s ease;
+  z-index: 61;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings-drawer.open {
+  transform: translateX(0);
+}
+
+.settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings-title {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.settings-section-title {
+  margin-top: 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.settings-row input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+}
+
+.settings-select {
+  width: 100%;
+  padding: 7px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: inherit;
+  font-size: 13px;
+}
+
+/* ===== Tile altitude dual (AGL/MSL) ===== */
+
+.alt-dual {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.alt-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.alt-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  min-width: 26px;
+}
+
+/* ===== Bar level fuel / battery ===== */
+
+.tile-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.level-bar {
+  margin-top: 6px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.level-bar > div {
+  height: 100%;
+  width: 0;
+  border-radius: 3px;
+  transition: width 0.25s ease;
+}
+
+.level-bar > div.lv-good { background: var(--good); }
+.level-bar > div.lv-warn { background: var(--warn, #f4bf4f); }
+.level-bar > div.lv-bad  { background: var(--bad); }
+
+/* ===== Mode layout (FULL / GCS / 3D) ===== */
+
+.layout-group {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.layout-group .btn {
+  border: 0;
+  border-radius: 0;
+}
+
+.layout-group .btn.active {
+  background: var(--accent);
+  color: #06121c;
+  font-weight: 800;
+}
+
+/* GCS murni: peta mati (render loop juga di-pause via JS) */
+body.mode-gcs #map-container {
+  display: none;
+}
+
+body.mode-gcs #app {
+  background:
+    radial-gradient(1200px 500px at 50% -10%, rgba(65, 209, 255, 0.06), transparent),
+    var(--bg, #0b1017);
+}
+
+body.mode-gcs .view-group,
+body.mode-gcs #cameraToggleBtn,
+body.mode-gcs #homeBtn,
+body.mode-gcs #topViewBtn {
+  display: none; /* kontrol kamera tak relevan tanpa 3D */
+}
+
+/* 3D murni: panel GCS lenyap */
+body.mode-visual .left-panel,
+body.mode-visual .right-panel {
+  display: none;
+}
+
+/* ===== Layout v2: mode di drawer, GCS fullscreen, 3D bersih ===== */
+
+.drawer-modes {
+  width: 100%;
+}
+
+.drawer-modes .btn {
+  flex: 1;
+}
+
+.settings-note {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.5;
+  padding: 8px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+}
+
+/* --- GCS: dashboard dua kolom TERPUSAT, fullscreen rapi --- */
+body.mode-gcs .left-panel {
+  left: calc(50% - 452px);
+  right: auto;
+  width: 432px;
+}
+
+body.mode-gcs .right-panel {
+  right: calc(50% - 452px);
+  left: auto;
+  width: 432px;
+}
+
+body.mode-gcs .right-panel {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-content: start;
+}
+
+body.mode-gcs .right-panel .gauge-card[data-widget="attitude_gauge"] {
+  grid-column: 1 / -1;
+}
+
+body.mode-gcs .adi {
+  width: 220px;
+}
+
+body.mode-gcs .hsi {
+  width: 160px;
+}
+
+body.mode-gcs .telemetry-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* --- 3D murni: topbar tinggal views + gear; bar bawah Cesium hilang --- */
+body.mode-visual .brand {
+  display: none;
+}
+
+body.mode-visual .cesium-viewer-bottom,
+body.mode-visual .cesium-widget-credits {
+  display: none !important;
+}
+
+/* ===== P7.1 — polish mode GCS & 3D (visual) ===== */
+
+/* --- GCS: dashboard terpusat VERTIKAL (bukan nempel atas) --- */
+body.mode-gcs .left-panel,
+body.mode-gcs .right-panel {
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
+  max-height: calc(100vh - 128px);
+  scrollbar-width: thin;
+}
+
+/* scrollbar tipis bila konten melebihi tinggi layar */
+body.mode-gcs .left-panel::-webkit-scrollbar,
+body.mode-gcs .right-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+body.mode-gcs .left-panel::-webkit-scrollbar-thumb,
+body.mode-gcs .right-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 3px;
+}
+
+/* Checklist TIDAK berlaku di GCS -> status "Checklist pending" menyesatkan.
+   Status terrain juga tak relevan (peta mati). Keduanya disembunyikan. */
+body.mode-gcs .preflight-status,
+body.mode-gcs .brand-subtitle {
+  display: none;
+}
+
+/* Layar sempit: dua kolom tetap berdampingan mengisi lebar (menimpa
+   responsive.css yang membanting panel ke bawah dan merusak dashboard). */
+@media (max-width: 960px) {
+  body.mode-gcs .left-panel {
+    left: 16px;
+    width: calc(50% - 24px);
+  }
+
+  body.mode-gcs .right-panel {
+    right: 16px;
+    width: calc(50% - 24px);
+  }
+}
+
+/* --- 3D murni: kontrol konsisten MENEPI KANAN (brand hilang membuat
+   space-between melempar tombol ke kiri), grid HUD dimatikan. --- */
+body.mode-visual .topbar {
+  justify-content: flex-end;
+}
+
+body.mode-visual .hud-grid {
+  display: none;
+}

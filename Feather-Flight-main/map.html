@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>BETA Flight</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cesium/1.118.1/Cesium.js"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/cesium/1.118.1/Widgets/widgets.css"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="./src/css/variables.css" />
+  <link rel="stylesheet" href="./src/css/base.css" />
+  <link rel="stylesheet" href="./src/css/layout.css" />
+  <link rel="stylesheet" href="./src/css/panels.css" />
+  <link rel="stylesheet" href="./src/css/controls.css" />
+  <link rel="stylesheet" href="./src/css/gauges.css" />
+  <link rel="stylesheet" href="./src/css/settings.css" />
+  <link rel="stylesheet" href="./src/css/loading.css" />
+  <link rel="stylesheet" href="./src/css/responsive.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div id="map-container">
+      <div id="map"></div>
+    </div>
+
+    <div class="hud-grid"></div>
+
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge">3D</div>
+
+        <div class="brand-text">
+          <div class="brand-title" id="titleText">BETA Flight</div>
+          <div class="brand-subtitle" id="terrainStatusText">Loading terrain...</div>
+
+          <div class="brand-meta">
+            <div class="preflight-status" id="preflightStatus" data-widget="preflight">
+              <div class="preflight-dot" id="preflightDot"></div>
+              <div id="preflightText">Checklist pending</div>
+            </div>
+            <div class="pose-badge" id="poseBadge" data-widget="pose_badge">POSE: ---</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="view-group">
+          <button class="btn view-btn" data-view="fpv">FPV</button>
+          <button class="btn view-btn" data-view="tail">Tail</button>
+          <button class="btn view-btn" data-view="ground">Ground</button>
+        </div>
+        <button class="btn primary active" id="cameraToggleBtn">Follow Camera</button>
+        <button class="btn" id="homeBtn">Go Home</button>
+        <button class="btn" id="topViewBtn">Top View</button>
+        <button class="btn" id="settingsBtn" title="Widget settings">&#9881;</button>
+      </div>
+    </div>
+
+    <aside class="left-panel">
+      <section class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Flight Status
+            <span id="profileLabel" data-widget="profile_label"
+              style="font-size:11px;opacity:.6;font-weight:500;">&#8212;</span>
+          </div>
+
+          <div class="status-pill" data-widget="armed">
+            <span class="status-dot" id="armedDot"></span>
+            <span id="armedText">---</span>
+          </div>
+        </div>
+
+        <div class="telemetry-grid">
+          <div class="telemetry-item" data-widget="mode">
+            <div class="telemetry-label">Mode</div>
+            <div class="telemetry-value" id="modeValue">---</div>
+          </div>
+
+          <div class="telemetry-item" data-widget="satellites">
+            <div class="telemetry-label">Satellites</div>
+            <div class="telemetry-value" id="satValue">---</div>
+          </div>
+
+          <div class="telemetry-item span-2" data-widget="position">
+            <div class="telemetry-label">Position (lat, lon)</div>
+            <div class="telemetry-value" id="latLonValue">---</div>
+          </div>
+
+          <div class="telemetry-item span-2" data-widget="altitude">
+            <div class="telemetry-label">Altitude</div>
+            <div class="alt-dual">
+              <div class="alt-row">
+                <span class="alt-tag" id="altAglLabel">AGL</span>
+                <span class="telemetry-value" id="altAglValue">---</span>
+              </div>
+              <div class="alt-row">
+                <span class="alt-tag">MSL</span>
+                <span class="telemetry-value" id="altMslValue">---</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="telemetry-item" data-widget="groundspeed">
+            <div class="telemetry-label">GS (m/s)</div>
+            <div class="telemetry-value" id="gsValue">---</div>
+          </div>
+
+          <div class="telemetry-item" data-widget="airspeed">
+            <div class="telemetry-label">AS (m/s)</div>
+            <div class="telemetry-value" id="asValue">---</div>
+          </div>
+
+          <div class="telemetry-item" data-widget="fuel">
+            <div class="telemetry-label">Fuel</div>
+            <div class="telemetry-value" id="fuelValue">---</div>
+            <div class="level-bar"><div id="fuelBar"></div></div>
+          </div>
+
+          <div class="telemetry-item" data-widget="battery">
+            <div class="telemetry-label">Avionics Batt</div>
+            <div class="telemetry-value" id="batPctValue">---</div>
+            <div class="tile-sub" id="batVoltValue">--- V</div>
+            <div class="level-bar"><div id="batBar"></div></div>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <aside class="right-panel">
+      <section class="gauge-card" data-widget="attitude_gauge">
+        <div class="gauge-title">Attitude</div>
+
+        <div class="adi" id="adi"></div>
+
+        <div class="heading-readout">
+          <div class="rpy-readout" id="rpyReadout">R ---&#176; &#160;P ---&#176; &#160;Y ---&#176;</div>
+          <div class="small-caption">Roll / Pitch / Yaw</div>
+        </div>
+      </section>
+
+      <section class="gauge-card" data-widget="heading_gauge">
+        <div class="gauge-title">Heading</div>
+
+        <div class="hsi" id="hsi"></div>
+
+        <div class="heading-readout">
+          <div class="big-readout" id="headingBig">000&#176;</div>
+          <div class="small-caption">Heading</div>
+        </div>
+      </section>
+
+      <section class="gauge-card" data-widget="altitude_gauge">
+        <div class="gauge-title">Altitude</div>
+
+        <div class="alt-tape">
+          <div class="alt-tape-scale" id="altTapeScale"></div>
+          <div class="alt-tape-lancet"><span id="altTapeValue">---</span></div>
+        </div>
+
+        <div class="heading-readout">
+          <div class="small-caption" id="altCaption">---</div>
+        </div>
+      </section>
+    </aside>
+
+    <div class="settings-backdrop" id="settingsBackdrop"></div>
+    <aside class="settings-drawer" id="settingsDrawer">
+      <div class="settings-head">
+        <div class="settings-title">Tampilan</div>
+        <button class="btn" id="settingsClose">&#10005;</button>
+      </div>
+
+      <div class="settings-section-title">Mode layout</div>
+      <div id="settingsModes"></div>
+
+      <div class="settings-section-title">Altitude tape source</div>
+      <select id="tapeSourceSel" class="settings-select">
+        <option value="agl">AGL (fallback REL)</option>
+        <option value="msl">MSL</option>
+      </select>
+
+      <div class="settings-list" id="settingsList"></div>
+
+      <button class="btn" id="settingsReset">Reset ke profil</button>
+    </aside>
+
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-card">
+        <div class="loading-title">Initializing 3D Terrain</div>
+        <div class="loading-text" id="loadingText">Loading terrain...</div>
+        <div class="loading-bar"><div></div></div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script type="module" src="./src/js/main.js"></script>
+</body>
+</html>

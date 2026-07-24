@@ -1,0 +1,318 @@
+.gauge-card {
+  padding: 10px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: var(--blur);
+  box-shadow: var(--shadow);
+  pointer-events: auto;
+}
+
+.gauge-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+/* ===================== HSI (heading) ===================== */
+
+.hsi {
+  width: 128px;
+  margin: 0 auto;
+}
+
+.hsi-svg {
+  display: block;
+  width: 100%;
+}
+
+.hsi-ring {
+  fill: #0c1422;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 1.5;
+}
+
+.hsi-tick {
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-width: 1.2;
+}
+
+.hsi-tick.major {
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.6;
+}
+
+.hsi-num {
+  fill: rgba(255, 255, 255, 0.88);
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.hsi-num.cardinal {
+  fill: #ffb61e;
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
+.hsi-fixed-tick {
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 2;
+}
+
+.hsi-lubber {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 5px rgba(65, 209, 255, 0.55));
+}
+
+.hsi-plane {
+  fill: var(--accent);
+  stroke: rgba(0, 0, 0, 0.6);
+  stroke-width: 0.8;
+}
+
+.heading-readout {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.big-readout {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.rpy-readout {
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.small-caption {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ===================== ADI (attitude) ===================== */
+
+.adi {
+  width: 128px;
+  margin: 0 auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(0, 0, 0, 0.55);
+  box-shadow:
+    inset 0 0 26px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.07);
+}
+
+/* Kilau kaca halus */
+.adi::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.03) 28%,
+    transparent 45%
+  );
+  pointer-events: none;
+}
+
+.adi-roll,
+.adi-pitch {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.adi-ball {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 240%;
+  aspect-ratio: 1;
+  margin-left: -120%;
+  margin-top: -120%;
+  border-radius: 50%;
+  background: linear-gradient(
+    to bottom,
+    #1e5fae 0%,
+    #4f97e0 42%,
+    #9fd0ff 49.7%,
+    #ffffff 49.7% 50.3%,
+    #9c6a33 50.3%,
+    #6e4a22 60%,
+    #3f2a12 100%
+  );
+}
+
+.adi-ladder {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 128px;
+  height: 128px;
+  margin-left: -64px;
+  margin-top: -64px;
+  overflow: visible;
+}
+
+.adi-ladder-line {
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 1.1;
+}
+
+.adi-ladder-line.major {
+  stroke-width: 1.6;
+}
+
+.adi-ladder-num {
+  fill: rgba(255, 255, 255, 0.9);
+  font-size: 10px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.adi-arc {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.adi-arc-tick {
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 1.4;
+}
+
+.adi-arc-tick.major {
+  stroke-width: 2.2;
+}
+
+.adi-arc-ref {
+  fill: #ffffff;
+}
+
+/* Sky pointer: ikut roll, menunjuk segitiga referensi tetap. */
+.adi-sky-ptr {
+  position: absolute;
+  left: 50%;
+  top: 7.5%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 12px solid #ffd75e;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 94, 0.5));
+}
+
+/* Simbol pesawat tetap: sayap amber standar ADI. */
+.adi-wings {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.adi-wings .w {
+  width: 46px;
+  height: 5px;
+  background: #ffb61e;
+  border: 1px solid rgba(0, 0, 0, 0.55);
+  border-radius: 2px;
+}
+
+.adi-wings .w.l {
+  border-radius: 2px 0 0 2px;
+}
+
+.adi-wings .w.r {
+  border-radius: 0 2px 2px 0;
+}
+
+.adi-wings .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffb61e;
+  border: 1px solid rgba(0, 0, 0, 0.55);
+}
+
+/* ===================== Altitude tape ===================== */
+
+.alt-tape {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.alt-tape-scale {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 0;
+  will-change: transform;
+}
+
+.alt-tick {
+  position: absolute;
+  right: 0;
+  width: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.alt-tick.major {
+  width: 26px;
+  border-top-color: rgba(255, 255, 255, 0.4);
+}
+
+.alt-tick-label {
+  position: absolute;
+  right: 32px;
+  top: -8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.alt-tape-lancet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 2px solid var(--accent);
+  filter: drop-shadow(0 0 6px rgba(65, 209, 255, 0.35));
+}
+
+.alt-tape-lancet span {
+  position: absolute;
+  left: 8px;
+  top: -11px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.alt-tape-lancet span.negative {
+  color: var(--bad);
+}

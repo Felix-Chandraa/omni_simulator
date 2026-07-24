@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+Omni-Trainer 2.8m JSBSim config for ArduPilot SITL
+************************************************************************
+-->
+
+<PropertyList>
+ <sim>
+
+  <description>Omni-Trainer 2.8m JSBSim config for ArduPilot SITL</description>
+  <author>Bim / OpenAI, tuned from the user's flight logs</author>
+  <aircraft-version>1.1</aircraft-version>
+  <model-hz>400</model-hz>
+
+  <startup>
+    <splash-texture>Aircraft/Omni-Trainer/Rascal110-splash.rgb</splash-texture>
+  </startup>
+
+  <flight-model>jsb</flight-model>
+  <aero>Omni-Trainer-JSBSim</aero>
+  <fuel-fraction>0.50</fuel-fraction>
+
+  <systems>
+   <autopilot>
+    <path>Aircraft/Omni-Trainer/Systems/110-autopilot.xml</path>
+   </autopilot>
+   <electrical>
+    <path>Aircraft/Omni-Trainer/Systems/electrical.xml</path>
+   </electrical>
+  </systems>
+
+  <sound>
+   <path>Aircraft/Generic/generic-sound.xml</path>
+  </sound>
+
+  <panel>
+   <visibility archive="n">false</visibility>
+  </panel>
+
+  <model>
+   <path archive="y">Aircraft/Omni-Trainer/Models/Rascal110.xml</path>
+  </model>
+
+  <view>
+   <internal archive="y">true</internal>
+   <config>
+     <x-offset-m archive="y">0.0</x-offset-m>
+     <y-offset-m archive="y">-0.15</y-offset-m>
+     <z-offset-m archive="y">0.9</z-offset-m>
+     <pitch-offset-deg>0</pitch-offset-deg>
+   </config>
+  </view>
+
+  <submodels>
+    <serviceable type="bool">1</serviceable>
+    <path>Aircraft/Omni-Trainer/Omni-Trainer-submodels.xml</path>
+  </submodels>
+
+  <view n="1"><config><target-z-offset-m archive="y" type="double">0.5</target-z-offset-m></config></view>
+  <view n="2"><config><target-z-offset-m archive="y" type="double">0.5</target-z-offset-m></config></view>
+  <view n="3"><config><target-z-offset-m archive="y" type="double">0.5</target-z-offset-m></config></view>
+  <view n="4"><config><target-z-offset-m archive="y" type="double">0.5</target-z-offset-m></config></view>
+  <view n="5"><config><target-z-offset-m archive="y" type="double">0.5</target-z-offset-m></config></view>
+  <view n="6"><config><target-z-offset-m archive="y" type="double">0.5</target-z-offset-m></config></view>
+
+  <multiplay>
+    <chat_display>1</chat_display>
+    <generic>
+      <int type="bool">0</int>
+      <int type="bool">0</int>
+    </generic>
+  </multiplay>
+
+  <help>
+    <title>Omni-Trainer</title>
+    <line>Cruise speed: 47-49 kts</line>
+    <line>Never-exceed (Vne): 65 kts</line>
+    <line>Best glide: 36-38 kts</line>
+    <line>Maneuvering (Va): 43-45 kts</line>
+    <line>Approach speed: 37-40 kts</line>
+    <line>Stall speed (Vs): 31-33 kts</line>
+  </help>
+
+ </sim>
+
+ <nasal>
+  <omni_trainer>
+   <file>Aircraft/Omni-Trainer/Systems/main.nas</file>
+   <file>Aircraft/Omni-Trainer/Systems/airdata.nas</file>
+   <file>Aircraft/Omni-Trainer/Systems/ugear.nas</file>
+      <script>
+         setlistener("/sim/signals/fdm-initialized", func {
+             var left  = screen.display.new(20, 10);
+             left.add("/apm/aileron");
+             left.add("/apm/elevator");
+             left.add("/apm/rudder");
+             left.add("/apm/throttle");
+
+             var right = screen.display.new(-250, 20);
+             right.add("/apm/pitch");
+             right.add("/apm/roll");
+             right.add("/apm/altitude");
+             right.add("/apm/heading");
+             right.add("/apm/airspeed");
+             right.add("/apm/groundspeed");
+         });
+        </script>
+  </omni_trainer>
+ </nasal>
+
+ <yasim>
+  <Rascal110>
+   <pilot-lb>2</pilot-lb>
+  </Rascal110>
+ </yasim>
+
+ <input>
+   <keyboard include="Omni-Trainer-keyboard.xml"/>
+ </input>
+
+ <controls>
+  <flight>
+   <aileron-trim>-0.01</aileron-trim>
+   <elevator-trim>0.00</elevator-trim>
+   <rudder-trim>0.00</rudder-trim>
+  </flight>
+  <engines>
+   <engine n="0">
+    <magnetos>3</magnetos>
+   </engine>
+  </engines>
+  <smoke alias="/sim/multiplay/generic/int[0]"/>
+  <trajectory-markers alias="/sim/multiplay/generic/int[1]"/>
+ </controls>
+
+ <engines>
+  <engine>
+   <rpm type="double">700</rpm>
+  </engine>
+ </engines>
+
+</PropertyList>

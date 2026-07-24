@@ -1,0 +1,39 @@
+# Omni-Trainer JSBSim model for ArduPilot SITL
+
+This is a run-ready ArduPilot JSBSim aircraft folder based on the supplied Rascal28 model.
+The folder and aircraft file are named `Omni-Trainer`, so ArduPilot can load it with:
+
+```bash
+cd ~/ardupilot
+./Tools/autotest/sim_vehicle.py -v ArduPlane -f jsbsim:Omni-Trainer --console --map
+```
+
+Install location:
+
+```bash
+~/ardupilot/Tools/autotest/aircraft/Omni-Trainer
+```
+
+Important files:
+
+- `Omni-Trainer.xml`: native JSBSim aircraft file used by ArduPilot SITL.
+- `Omni-Trainer-JSBSim-set.xml`: FlightGear set file, kept for compatibility/visualization.
+- `Engines/DLE30_EFI.xml`: JSBSim piston engine surrogate, not electric.
+- `Engines/18x10.xml`: fixed-pitch propeller model.
+- `reset.xml`: default initialization file. ArduPilot normally overwrites this at SITL startup.
+
+Notes:
+
+- ArduPilot native JSBSim does not load the `*-set.xml` file directly. It loads the aircraft by name, which means it looks for `aircraft/Omni-Trainer/Omni-Trainer.xml`.
+- This version is intentionally conservative so it starts with the default `sim_vehicle.py` JSBSim workflow first. Fine tuning for exact engine thrust, inverted V-tail effectiveness, trim, and landing behavior should be done after the model launches reliably.
+
+EFI/RPM/CHT note
+----------------
+JSBSim propulsion is used for aircraft physics, but ArduPilot EFI display/logging requires EFI_STATUS telemetry to enter the ArduPilot EFI backend.
+
+In MAVProxy:
+  param load Tools/autotest/aircraft/Omni-Trainer/omni_trainer_efi.parm
+  reboot
+
+Then in another terminal:
+  python3 /path/to/omnitrainer-sitl/scripts/omni_efi_mavlink_sim.py --connect tcp:127.0.0.1:5760

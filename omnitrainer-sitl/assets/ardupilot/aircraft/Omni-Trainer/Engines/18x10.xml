@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<!--
+  Omni-Trainer 18x10 propeller surrogate.
+
+  Goal:
+  - stronger static thrust for shorter takeoff run
+  - less high-speed efficiency so it does not become a 31 m/s cruiser
+-->
+
+<propeller name="OMNI_TRAINER_18X10_TAKEOFF_FIX">
+  <ixx unit="SLUG*FT2">0.00078</ixx>
+  <diameter unit="IN">18.0</diameter>
+  <numblades>2</numblades>
+  <gearratio>1.0</gearratio>
+
+  <minpitch>18.0</minpitch>
+  <maxpitch>18.0</maxpitch>
+
+  <table name="C_THRUST" type="internal">
+    <tableData>
+      0.00   0.1000
+      0.10   0.0960
+      0.20   0.0900
+      0.30   0.0810
+      0.40   0.0690
+      0.50   0.0550
+      0.60   0.0390
+      0.70   0.0240
+      0.80   0.0100
+      0.90  -0.0040
+      1.00  -0.0180
+      1.10  -0.0300
+      1.20  -0.0420
+    </tableData>
+  </table>
+
+  <table name="C_POWER" type="internal">
+    <tableData>
+      0.00   0.0520
+      0.10   0.0500
+      0.20   0.0470
+      0.30   0.0430
+      0.40   0.0380
+      0.50   0.0320
+      0.60   0.0250
+      0.70   0.0170
+      0.80   0.0090
+      0.90   0.0010
+      1.00  -0.0070
+      1.10  -0.0150
+      1.20  -0.0230
+    </tableData>
+  </table>
+</propeller>

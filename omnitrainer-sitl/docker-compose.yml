@@ -1,0 +1,29 @@
+services:
+  sitl:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: omnitrainer-sitl:local
+    network_mode: host
+    stdin_open: true
+    tty: true
+    environment:
+      OMNI_WORKSPACE: /workspace/omnitrainer-sitl
+      OMNI_LOCATION_NAME: ${OMNI_LOCATION_NAME:-GUI_OMNI}
+      OMNI_LOCATION_LAT: ${OMNI_LOCATION_LAT:--7.3421715}
+      OMNI_LOCATION_LNG: ${OMNI_LOCATION_LNG:-108.2433529}
+      OMNI_LOCATION_ALT_MSL: ${OMNI_LOCATION_ALT_MSL:-50.0}
+      OMNI_LOCATION_HEADING: ${OMNI_LOCATION_HEADING:-150.0}
+    volumes:
+      - .:/workspace/omnitrainer-sitl:ro
+    command:
+      - ./Tools/autotest/sim_vehicle.py
+      - -v
+      - ArduPlane
+      - -f
+      - plane
+      - -L
+      - ${OMNI_LOCATION_NAME:-GUI_OMNI}
+      - --console
+      - --out=udp:127.0.0.1:14550
+      - --add-param-file=/workspace/omnitrainer-sitl/omnisitl.param

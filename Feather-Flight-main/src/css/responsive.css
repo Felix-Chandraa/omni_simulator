@@ -1,0 +1,97 @@
+@media (max-width: 1200px) {
+  .bottom-bar {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 960px) {
+  .left-panel {
+    width: 240px;
+  }
+
+  .right-panel {
+    width: 150px;
+  }
+
+  .bottom-value {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls {
+    justify-content: stretch;
+  }
+
+  .controls .btn {
+    flex: 1 1 auto;
+  }
+
+  .left-panel,
+  .right-panel {
+    position: absolute;
+    top: auto;
+    bottom: 100px;
+    width: calc(50% - 22px);
+    max-height: 42vh;
+  }
+
+  .left-panel {
+    left: 16px;
+  }
+
+  .right-panel {
+    right: 16px;
+  }
+
+  .bottom-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .left-panel,
+  .right-panel {
+    position: static;
+    width: auto;
+    max-height: none;
+  }
+
+  .topbar {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .left-panel {
+    left: 10px;
+    right: 10px;
+    top: 150px;
+    bottom: auto;
+    width: auto;
+  }
+
+  .right-panel {
+    display: none;
+  }
+
+  .bottom-bar {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .telemetry-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .telemetry-item.span-2 {
+    grid-column: span 2;
+  }
+}

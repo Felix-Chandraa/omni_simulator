@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtualenv
+.venv/
+Feather-Flight-main/.venv/
+
+# ArduPilot: di-clone oleh setup.sh, jangan ikut repo
+omnitrainer-sitl/ardupilot/
+
+# State runtime SITL
+eeprom.bin
+mav.parm
+*.tlog
+*.tlog.raw
+logs/
+terrain/
+
+# Build & arsip
+build/
+dist_pkg/
+*.tar.gz
+*.zip
+
+# Backup lokal
+backup_*/
+*BACKUP*/
+*.bak

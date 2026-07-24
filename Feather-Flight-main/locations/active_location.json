@@ -1,0 +1,13 @@
+{
+  "name": "Wiriadinata",
+  "lat": -7.346914,
+  "lon": 108.2463725,
+  "altMsl": 349.0,
+  "headingTrue": 327.66,
+  "gcs": {
+    "lat": -7.346288,
+    "lon": 108.246224,
+    "altMsl": null
+  },
+  "geoidOffsetM": 8.55
+}

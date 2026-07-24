@@ -1,0 +1,24 @@
+{
+  "name": "rover",
+  "label": "Ground Rover",
+  "mav_type": [10, 11],
+
+  "dashboard": [
+    "mode",
+    "armed",
+    "position",
+    "satellites",
+    "battery",
+    "groundspeed",
+    "heading_gauge",
+    "pose_badge",
+    "profile_label",
+    "preflight"
+  ],
+
+  "limits": {},
+
+  "_p2_schema": {
+    "note": "STUB F2 untuk membuktikan gerbang (airspeed, altitude, fuel & instrumen udara tidak relevan utk rover -> tidak didaftarkan -> widget-nya hilang). P2 melengkapi model/views/modes rover."
+  }
+}

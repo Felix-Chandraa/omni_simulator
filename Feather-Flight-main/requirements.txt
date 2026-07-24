@@ -1,0 +1,4 @@
+pymavlink
+PyQt6
+PyQt6-WebEngine
+websockets>=11

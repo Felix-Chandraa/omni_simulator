@@ -1,0 +1,11 @@
+.git/
+__pycache__/
+*.py[cod]
+
+build/
+dist/
+
+*.tar.gz
+*.zip
+
+dist_pkg/omni-trainer-sitl

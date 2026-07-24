@@ -1,0 +1,107 @@
+#!/bin/bash
+# Quick Start Guide for Omni Trainer SITL Launcher
+# This file shows the fastest way to get started
+
+cat << 'EOF'
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                  OMNI TRAINER SITL LAUNCHER - QUICK START                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+STEP 1: Extract the package
+  tar xzf omni-trainer-sitl-standalone.tar.gz
+  cd dist_pkg
+
+STEP 2: Run the automatic installer (RECOMMENDED)
+  ./install.sh
+  
+  This will:
+  - Install system dependencies (PyQt5, MAVProxy, pymavlink, Docker)
+  - Ask if you want to install ArduPilot SITL
+  - Download and configure everything needed
+
+STEP 3: Launch the application
+  ./omni-trainer-sitl
+
+  That's it! The GUI will appear.
+
+  Docker SITL:
+  - Enable "Docker SITL" before clicking "Start"
+  - First run builds the local image and can take several minutes
+  - QGroundControl still runs on the host and listens on UDP 14550
+
+═══════════════════════════════════════════════════════════════════════════════
+
+WHAT YOU CAN DO:
+
+  1. SELECT LOCATION
+     Click on the map to set start location
+     Use "Fetch Terrain Altitude" to get elevation automatically
+
+  2. START SIMULATION
+     Click "Start" button
+     Watch the console for SITL startup messages
+
+  3. INTERACT WITH AIRCRAFT
+     Use MAVProxy (telemetry console) to arm and fly
+     Example: arm throttle=50 mode=AUTO
+
+  4. MONITOR TELEMETRY
+     View EFI engine parameters in real-time
+     Monitor rangefinder altitude readings
+     Check aviation overlay for nearby airports
+
+═══════════════════════════════════════════════════════════════════════════════
+
+SYSTEM REQUIREMENTS:
+
+  MINIMUM:
+  - Linux (Ubuntu 18.04+) or macOS (10.14+)
+  - Python 3.8 or later
+  - 2GB RAM
+  - 500MB disk space
+
+  INSTALL TIME: 5-15 minutes (depending on internet speed)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+TROUBLESHOOTING:
+
+  "Permission denied" when running ./install.sh
+    → chmod +x install.sh ./omni-trainer-sitl
+
+  Binary won't start / "QtWebEngine not found"
+    → Run: pip install --user PyQt5-sip PyQt5 PyQtWebEngine
+    → If Python says externally managed environment:
+      pip install --user --break-system-packages PyQt5-sip PyQt5 PyQtWebEngine
+
+  SITL console won't appear
+    → Check if xterm is installed: sudo apt-get install xterm
+
+  Terrain altitude lookup fails
+    → Check internet connection, try again later
+
+  "sim_vehicle.py not found"
+    → Run installer again, select YES for ArduPilot SITL
+
+═══════════════════════════════════════════════════════════════════════════════
+
+ADVANCED OPTIONS:
+
+  Use custom ArduPilot location:
+    export OMNI_ARDUPILOT_ROOT=/path/to/ardupilot
+    ./omni-trainer-sitl
+
+  Use custom configuration profile:
+    ./omni-trainer-sitl omni_trainer_dle30_15kg.yaml
+
+  Run Docker SITL without the GUI:
+    bash scripts/docker_sitl.sh
+
+  Run with Docker Compose:
+    docker compose up --build sitl
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Need more help? See README.md in this directory.
+
+EOF
